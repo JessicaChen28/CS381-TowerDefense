@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class BasicEnemy : MonoBehaviour
 {
-    private float speed = 1f;
+    private float speed = 0.5f;
+    private int health = 1;
     private Transform target;
     private int waypointIndex = 0;
 
