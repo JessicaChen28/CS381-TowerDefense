@@ -10,6 +10,10 @@ public class Enemy : MonoBehaviour
     /// <summary>All living enemies. Towers should iterate this instead of searching the scene.</summary>
     public static readonly List<Enemy> All = new List<Enemy>();
 
+    // Statics survive between plays when Domain Reload is disabled, so clear the list at startup.
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void ResetStatics() => All.Clear();
+
     public float speed = 2f;
     public int maxHp = 3;
     [Tooltip("Placeholder: walk along transform.forward. Turn off when a waypoint mover is attached.")]
