@@ -13,7 +13,10 @@ public class Tower : MonoBehaviour
     [SerializeField] Projectile projectilePrefab;
     [SerializeField] float turnSpeed = 720f; // degrees per second
 
+    const int RingSegments = 96;
+
     float cooldown;
+    LineRenderer ring;
 
     public TowerData Data => data;
 
@@ -38,6 +41,33 @@ public class Tower : MonoBehaviour
             if (r != null) r.material.color = data.color;
         }
         if (turret != null) turret.localPosition = new Vector3(0f, data.height, 0f);
+        DrawRangeRing();
+    }
+
+    /// <summary>Ground ring whose radius is exactly the tower's firing range, tinted with the tower color.</summary>
+    void DrawRangeRing()
+    {
+        if (ring == null)
+        {
+            var go = new GameObject("RangeRing");
+            go.transform.SetParent(transform, false);
+            ring = go.AddComponent<LineRenderer>();
+            ring.loop = true;
+            ring.useWorldSpace = false;
+            ring.positionCount = RingSegments;
+            ring.widthMultiplier = 0.03f;
+            ring.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            ring.receiveShadows = false;
+            ring.material = new Material(Shader.Find("Sprites/Default"));
+        }
+
+        Color c = data.color; c.a = 0.85f;
+        ring.startColor = ring.endColor = c;
+        for (int i = 0; i < RingSegments; i++)
+        {
+            float a = i * Mathf.PI * 2f / RingSegments;
+            ring.SetPosition(i, new Vector3(Mathf.Cos(a) * data.range, 0.02f, Mathf.Sin(a) * data.range));
+        }
     }
 
     void Update()
