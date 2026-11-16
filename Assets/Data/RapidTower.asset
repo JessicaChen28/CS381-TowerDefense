@@ -16,7 +16,7 @@ MonoBehaviour:
   fireRate: 3
   projectileSpeed: 20
   height: 1
-  range: 9
+  range: 3
   damage: 1
   color: {r: 1, g: 0.55, b: 0.1, a: 1}
   towerPrefab: {fileID: 1823951125220378494, guid: 2b200ba22d2742a4e93ad5db8bd87345, type: 3}
