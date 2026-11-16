@@ -294,5 +294,5 @@ MonoBehaviour:
   body: {fileID: 8110748391213614952}
   turret: {fileID: 4137035387736048388}
   muzzle: {fileID: 3228746777508433439}
-  projectilePrefab: {fileID: 3570040420332513619, guid: 48df3b78c1ea3a34796884dc837ba136, type: 3}
+  projectilePrefab: {fileID: 87958031427371569, guid: e9f96091ef611b14ea1f000c90ccf46a, type: 3}
   turnSpeed: 720
