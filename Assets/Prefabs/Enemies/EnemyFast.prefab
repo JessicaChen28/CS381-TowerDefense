@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   speed: 2.5
-  maxHp: 3
+  maxHp: 5
   moveForward: 0
 --- !u!114 &1751732010869101869
 MonoBehaviour:

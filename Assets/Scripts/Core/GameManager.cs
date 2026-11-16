@@ -8,7 +8,15 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    [SerializeField] int maxBaseHealth = 15;
+
     public bool IsGameOver { get; private set; }
+    public int MaxBaseHealth => maxBaseHealth;
+    public int BaseHealth { get; private set; }
+
+    // Statics survive between plays when Domain Reload is disabled, so reset them explicitly.
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void ResetStatics() => Instance = null;
 
     void Awake()
     {
@@ -19,7 +27,17 @@ public class GameManager : MonoBehaviour
         }
         Instance = this;
         IsGameOver = false;
+        BaseHealth = maxBaseHealth;
         Time.timeScale = 1f;
+    }
+
+    /// <summary>An enemy reached the end: subtract its HP from the base. Game over at 0.</summary>
+    public void DamageBase(int amount)
+    {
+        if (IsGameOver) return;
+        BaseHealth = Mathf.Max(0, BaseHealth - amount);
+        Debug.Log("Base health: " + BaseHealth + " / " + maxBaseHealth);
+        if (BaseHealth <= 0) GameOver();
     }
 
     void OnDestroy()

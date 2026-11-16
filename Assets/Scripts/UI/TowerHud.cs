@@ -30,7 +30,16 @@ public class TowerHud : MonoBehaviour
         title.normal.textColor = body.normal.textColor = small.normal.textColor = Color.white;
 
         float w = 520 * scale, x = Screen.width - w - 15 * scale, y = 15 * scale;
-        GUI.Box(new Rect(x - 10 * scale, y - 5 * scale, w + 20 * scale, 235 * scale), GUIContent.none);
+        GUI.Box(new Rect(x - 10 * scale, y - 5 * scale, w + 20 * scale, 270 * scale), GUIContent.none);
+
+        var gm = GameManager.Instance;
+        if (gm != null)
+        {
+            title.normal.textColor = gm.BaseHealth <= gm.MaxBaseHealth / 3 ? Color.red : Color.white;
+            GUI.Label(new Rect(x, y, w, 36 * scale), "Base health: " + gm.BaseHealth + " / " + gm.MaxBaseHealth, title);
+            title.normal.textColor = Color.white;
+            y += 38 * scale;
+        }
 
         GUI.Label(new Rect(x, y, w, 36 * scale), "Towers remaining: " + placer.Remaining + " / " + placer.MaxTowers, title);
         y += 38 * scale;
