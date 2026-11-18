@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] int maxBaseHealth = 15;
 
     public bool IsGameOver { get; private set; }
+    public bool IsWon { get; private set; }
     public int MaxBaseHealth => maxBaseHealth;
     public int BaseHealth { get; private set; }
 
@@ -27,6 +28,7 @@ public class GameManager : MonoBehaviour
         }
         Instance = this;
         IsGameOver = false;
+        IsWon = false;
         BaseHealth = maxBaseHealth;
         Time.timeScale = 1f;
     }
@@ -58,17 +60,31 @@ public class GameManager : MonoBehaviour
         Debug.Log("GAME OVER");
     }
 
-    // Placeholder Game Over screen; Teammate A can replace with a Canvas later.
+    /// <summary>All waves spawned and every enemy cleared while the base still stands: freezes the game and shows YOU WIN.</summary>
+    public void Win()
+    {
+        if (IsGameOver || IsWon) return;
+        IsWon = true;
+        Time.timeScale = 0f;
+        Debug.Log("YOU WIN");
+    }
+
+    // Placeholder Game Over / You Win screens; Teammate A can replace with a Canvas later.
     void OnGUI()
     {
-        if (!IsGameOver) return;
+        if (!IsGameOver && !IsWon) return;
         var style = new GUIStyle(GUI.skin.label)
         {
             fontSize = 64,
             alignment = TextAnchor.MiddleCenter,
             fontStyle = FontStyle.Bold
         };
-        style.normal.textColor = Color.red;
-        GUI.Label(new Rect(0, 0, Screen.width, Screen.height), "GAME OVER", style);
+        style.normal.textColor = IsWon ? Color.green : Color.red;
+        GUI.Label(new Rect(0, 0, Screen.width, Screen.height), IsWon ? "YOU WIN!" : "GAME OVER", style);
+        if (IsWon)
+        {
+            style.fontSize = 28;
+            GUI.Label(new Rect(0, 90, Screen.width, Screen.height), "Base health left: " + BaseHealth + " / " + maxBaseHealth, style);
+        }
     }
 }

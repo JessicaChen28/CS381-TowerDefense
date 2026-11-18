@@ -15,7 +15,7 @@ public class TowerHud : MonoBehaviour
     void OnGUI()
     {
         if (placer == null) return;
-        if (GameManager.Instance != null && GameManager.Instance.IsGameOver) return;
+        if (GameManager.Instance != null && (GameManager.Instance.IsGameOver || GameManager.Instance.IsWon)) return;
 
         float scale = Screen.height / 720f;
         if (title == null)
